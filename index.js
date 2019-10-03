@@ -37,9 +37,34 @@ app.get('/api/persons/:id', (req, res) => {
     } else {
         res.status(404).end();
     }
-    
 });
 
+app.delete('/api/persons/:id', (req, res) => {
+  let id = Number(req.params.id);
+  console.log(id);
+  persons = persons.find(person => person.id !== id);
+  res.status(204).end();
+});
+
+app.post('/api/persons/', (req, res) => {
+    const body = req.body;
+    // if (!body.content) {
+    //   return response.status(400).json({ 
+    //     error: 'content missing' 
+    //   })
+    // }
+  
+    const person = {
+      name: body.name,
+      number: body.number,
+      id: Math.floor(Math.random() * 10000),
+    }
+  
+    persons = persons.concat(person)
+  
+
+    res.json(persons);
+})
 
 
 app.get('/info', (req, res) => {
