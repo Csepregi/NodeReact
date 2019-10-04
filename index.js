@@ -2,7 +2,21 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
+var morgan = require('morgan')
+
+app.use(morgan)
+
 app.use(bodyParser.json());
+
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
+app.use(requestLogger);
 
 
     let persons = [
@@ -48,12 +62,22 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons/', (req, res) => {
     const body = req.body;
-    // if (!body.content) {
-    //   return response.status(400).json({ 
-    //     error: 'content missing' 
-    //   })
-    // }
   
+    if(!body.name || !body.number) {
+      return res.status(400).json({
+        error: 'content missing'
+      })
+    }
+    console.log(`${req.body.name}${person.name} `)
+     const Samename = persons.find(person => person.name === body.name);
+     console.log(name, Samename);
+  
+    if(Samename){
+      return res.status(404).json({
+        error: 'name is already used'
+      })
+    }
+
     const person = {
       name: body.name,
       number: body.number,
@@ -71,6 +95,12 @@ app.get('/info', (req, res) => {
     res.send(`<h2>Phonebook has info for ${persons.length} </h2>
     ${date}`)
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const port = 3001;
 app.listen(port, () => {
