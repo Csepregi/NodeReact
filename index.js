@@ -47,7 +47,6 @@ app.use(requestLogger);
 
 let date = new Date();
 
-const baseUrl = '/api/persons'
   
 app.get('/api/persons', (req, res) => {
     res.json(persons)
