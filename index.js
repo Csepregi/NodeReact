@@ -1,10 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const cors = require('cors');
+
+app.use(cors())
 const app = express();
 
-var morgan = require('morgan')
+morgan('tiny')
 
-app.use(morgan)
+morgan.token('body', (req) => {
+	return JSON.stringify(req.body);
+});
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
 
 app.use(bodyParser.json());
 
@@ -68,15 +75,14 @@ app.post('/api/persons/', (req, res) => {
         error: 'content missing'
       })
     }
-    console.log(`${req.body.name}${person.name} `)
-     const Samename = persons.find(person => person.name === body.name);
-     console.log(name, Samename);
+    //  const Samename = persons.find(person => person.name === body.name);
+    //  console.log(name, Samename);
   
-    if(Samename){
-      return res.status(404).json({
-        error: 'name is already used'
-      })
-    }
+    // if(Samename){
+    //   return res.status(404).json({
+    //     error: 'name is already used'
+    //   })
+    // }
 
     const person = {
       name: body.name,
@@ -100,9 +106,13 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
+
+
+
 app.use(unknownEndpoint)
 
-const port = 3001;
-app.listen(port, () => {
-    console.log(`Server listening at ${port}`)
+const PORT = process.env.PORT 
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
