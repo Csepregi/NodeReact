@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../FullstackOpen/part2/phonebookserverside && npm run build --prod && cp -r build ../../part3/",
     "deploy": "git push heroku master",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",    
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail"
   },
   "repository": {
@@ -24,10 +24,13 @@
   "homepage": "https://github.com/Csepregi/NodeReact#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
+    "mongoose": "^5.7.3",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "eslint": "^6.5.1",
     "nodemon": "^1.19.3"
   }
 }
