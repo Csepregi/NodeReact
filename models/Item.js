@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-
+const uniqueValidator = require("mongoose-unique-validator");
+mongoose.set("useFindAndModify", false);
 const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
@@ -16,11 +17,13 @@ const itemSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 5,
-    required: true
+    required: true,
+    unique: true
   },
   number: { 
     type: Number,
-    required: true
+    required: true,
+    unique: true
   },
 })
 
