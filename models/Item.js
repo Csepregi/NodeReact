@@ -1,17 +1,4 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require("mongoose-unique-validator");
-mongoose.set("useFindAndModify", false);
-const url = process.env.MONGODB_URI
-
-console.log('connecting to', url)
-
-mongoose.connect(url, { useNewUrlParser: true })
-  .then(result => {
-    console.log('connected to MongoDB')
-  })
-  .catch((error) => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
 
 const itemSchema = new mongoose.Schema({
   name: {
@@ -20,7 +7,7 @@ const itemSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  number: { 
+  number: {
     type: Number,
     required: true,
     unique: true
